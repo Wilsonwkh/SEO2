@@ -1,0 +1,64 @@
+﻿
+@model WebApplication8.Models.ResultWordCount
+
+@{
+    ViewBag.Title = "WordCount";
+}
+
+<style type="text/css">
+    .webGrid {
+        margin: 4px;
+        border-collapse: collapse;
+        width: 500px;
+        background-color: #FCFCFC;
+    }
+
+        .webGrid th, .webGrid td {
+            border: 1px solid #C0C0C0;
+            padding: 5px;
+        }
+
+    .header {
+        background-color: #C1D4E6;
+        font-weight: bold;
+        color: #FFF;
+    }
+
+</style>
+
+@using (Html.BeginForm("WordCount", "Home", FormMethod.Post))
+{
+    <h2>Simple Word Count</h2>
+
+    <h3>Enter your Context here:</h3>
+<textarea name="Context" cols="800" rows="5" runat="server"></textarea>
+
+    <h3>Enter your search Keyword here (separate by comma "," if more than one search keyword):</h3>
+<textarea name="SearchKeyWords" cols="800" rows="1" runat="server"></textarea>
+    <p>
+         <input type="submit" value="Count Now" />
+    </p>
+    <p>
+        <div class="container" id="grid1">
+            
+
+            @{
+                var grid = new WebGrid(Model.Output_Result, rowsPerPage: 10, canSort: true, ajaxUpdateContainerId: "grid1");
+                grid.Pager(WebGridPagerModes.NextPrevious);}
+            @grid.GetHtml(
+                tableStyle: "webGrid",
+                headerStyle: "header",
+                alternatingRowStyle: "alt",
+                selectedRowStyle: "select",
+                columns: grid.Columns(
+                grid.Column("Word", "Word" ),
+                grid.Column("Count", "Count" )               
+                            ))
+        </div>
+    </p>
+}
+
+
+
+
+
